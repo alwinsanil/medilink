@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { getAppointmentsByDoctor } from '../api/appointmentService';
-import { getDoctorAvailability } from '../api/availabilityService';
-import userService from './../api/userService';
-import Sidebar from '../components/Sidebar';
+import { getAppointmentsByDoctor } from '../../api/appointmentService';
+import { getDoctorAvailability } from '../../api/availabilityService';
+import userService from '../../api/userService';
+import Sidebar from '../../components/Sidebar';
 import {
   Calendar,
   Users,
@@ -15,7 +15,7 @@ import {
   ChevronRight
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 
 const Dashboard = () => {
   const {authUser} = useAuth();

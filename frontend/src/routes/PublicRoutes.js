@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 
-import Analytics from "../pages/Analytics";
+import Analytics from "../pages/Doctor/Analytics";
 import Home from "../pages/HomePage/Home";
 import LoginPage from "../pages/Auth/LoginPage";
 import PatientRegister from "../pages/Auth/PatientRegister";
