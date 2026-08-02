@@ -2,14 +2,10 @@ import React, { useState, useMemo, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
-  Calendar,
-  Clock,
-  User,
   Stethoscope,
   MapPin,
   Star,
   X,
-  Check,
   Search,
   AlertCircle,
   CheckCircle2,

@@ -4,8 +4,6 @@ import {
   Search,
   Filter,
   Download,
-  Share2,
-  Printer,
 } from "lucide-react";
 import Sidebar from "../../components/Sidebar";
 import recordService from "../../api/recordService";
@@ -20,12 +18,14 @@ const MedicalHistory = () => {
   const [selectedFilter, setSelectedFilter] = useState("all");
   useEffect(()=>{
     const loadRecords = () => {
-      recordService.getRecords(authUser.id)
-        .then(data => setMedicalRecords(data))
-        .catch(err => console.error(err));
+      if (authUser?.id) {
+        recordService.getRecords(authUser.id)
+          .then(data => setMedicalRecords(data))
+          .catch(err => console.error(err));
+      }
     };
     loadRecords();
-  },[])
+  },[authUser?.id])
   const filteredRecords = medicalRecords.filter((record) => {
     const matchesSearch =
       record?.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||

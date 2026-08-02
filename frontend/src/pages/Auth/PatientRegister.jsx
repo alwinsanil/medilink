@@ -2,15 +2,13 @@ import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
-import { Heart, UserCheck, Eye, EyeOff, ArrowLeft, Mail, Lock, User, Phone, Calendar, Users } from 'lucide-react';
+import { UserCheck, Eye, EyeOff, ArrowLeft, Mail, Lock, User, Phone, Calendar, Users } from 'lucide-react';
 import { register } from '../../api/authService';
-import { useAuth } from '../../context/AuthContext';
 
 export default function PatientRegister() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const {setVerifiedAuthUser} = useAuth();
   
   const formik = useFormik({
     initialValues: {
@@ -31,7 +29,7 @@ export default function PatientRegister() {
         .email('Invalid email address')
         .required('Email is required'),
       phone: Yup.string()
-        .matches(/^\+?[\d\s\-\(\)]+$/, 'Please enter a valid phone number')
+        .matches(/^[+]?[\d\s()-]+$/, 'Please enter a valid phone number')
         .min(10, 'Phone number must be at least 10 digits'),
       dob: Yup.date()
         .max(new Date(), 'Date of birth cannot be in the future')

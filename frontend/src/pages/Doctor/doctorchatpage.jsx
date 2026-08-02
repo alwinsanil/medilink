@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { Mail, Phone, Calendar, FileText, Upload, Plus, Download, Send, MessageCircle, X, Minimize2 } from "lucide-react";
 import Sidebar from "../../components/Sidebar";
@@ -181,15 +181,15 @@ export default function DoctorPatientChatPage() {
         .catch(err => console.error(err));
   }, [patientId]);
 
-  const loadRecords = () => {
+  const loadRecords = useCallback(() => {
     recordService.getRecords(patientId)
         .then(data => setRecords(data))
         .catch(err => console.error(err));
-  };
+  }, [patientId]);
 
   useEffect(() => {
     loadRecords();
-  }, [patientId]);
+  }, [loadRecords]);
 
   const handleRecordChange = (e) => {
     const { name, files, value } = e.target;

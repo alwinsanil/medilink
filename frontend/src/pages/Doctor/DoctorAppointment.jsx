@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Menu, X, Search, Filter, Plus, Clock, Video, Phone, MapPin, Eye, Play, Trash2, Calendar, Users } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { X, Search, Filter, Plus, Clock, Video, Phone, MapPin, Eye, Play, Trash2, Calendar, Users } from "lucide-react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Sidebar from "../../components/Sidebar";
-import appointmentService, { getAppointmentsByDoctor } from "../../api/appointmentService";
+import appointmentService from "../../api/appointmentService";
 import { useAuth } from "../../context/AuthContext";
 
 // Validation schema using Yup
@@ -40,9 +40,7 @@ const ScheduleManagement = () => {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
-  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+  const [currentDate] = useState(new Date());
   const [activeView, setActiveView] = useState('Week');
   const [searchTerm, setSearchTerm] = useState('');
   const {authUser} = useAuth();
@@ -83,36 +81,13 @@ const ScheduleManagement = () => {
 
   // fetch existing appointments on mount
   useEffect(() => {
-    appointmentService
-      .getAppointmentsByDoctor(authUser?.id)
-      .then((data) => setAppointments(data))
-      .catch(() => {});
-  }, []);
-
-  // Helper functions for calendar
-  const getDaysInMonth = (month, year) => {
-    return new Date(year, month + 1, 0).getDate();
-  };
-
-  const getFirstDayOfMonth = (month, year) => {
-    return new Date(year, month, 1).getDay();
-  };
-
-  const generateCalendarDays = () => {
-    const daysInMonth = getDaysInMonth(currentMonth, currentYear);
-    const firstDayOfMonth = getFirstDayOfMonth(currentMonth, currentYear);
-    const days = [];
-
-    for (let i = 0; i < firstDayOfMonth; i++) {
-      days.push(null);
+    if (authUser?.id) {
+      appointmentService
+        .getAppointmentsByDoctor(authUser.id)
+        .then((data) => setAppointments(data))
+        .catch((err) => console.error(err));
     }
-
-    for (let i = 1; i <= daysInMonth; i++) {
-      days.push(i);
-    }
-
-    return days;
-  };
+  }, [authUser?.id]);
 
   const getInitials = (name) => {
     return name
@@ -172,13 +147,6 @@ const ScheduleManagement = () => {
       // error toast
     }
   };
-
-  useEffect(() => {
-    getAppointmentsByDoctor(authUser.id)
-      .then((data) => setAppointments(data))
-      .catch((err) => console.error(err))
-      .finally(() => {});
-  }, []);
 
   const getStatusColor = (status) => {
     switch (status) {

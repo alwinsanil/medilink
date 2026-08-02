@@ -177,11 +177,12 @@ const PatientAppointmentsDashboard = () => {
   };
 
   useEffect(() => {
-    getAppointmentsByPatient(authUser.id)
-      .then((data) => setAppointments(data))
-      .catch((err) => console.error(err))
-      .finally(() => {});
-  }, []);
+    if (authUser?.id) {
+      getAppointmentsByPatient(authUser.id)
+        .then((data) => setAppointments(data))
+        .catch((err) => console.error(err));
+    }
+  }, [authUser?.id]);
 
   const filteredAppointments = appointments.filter(appointment => {
     const matchesTab = selectedTab === 'all' || 

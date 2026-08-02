@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import {
   authenticate as authServiceLogin,
   logout as authServiceLogout
@@ -13,17 +13,9 @@ export const AuthProvider = ({ children }) => {
   const [authUser, setAuthUser] = useState(JSON.parse(localStorage.getItem('auth')));
   const [token, setToken] = useState(localStorage.getItem('token'));
   const navigate = useNavigate(); 
-  // On initial load
-  useEffect(() => {
-    setAuthUser(getAuthUserFromToken());
-  }, []);
 
-  // 1. Call Cognito login, return token + email (do not set authUser yet)
-  const authenticate = (email, password) => {
-    return authServiceLogin(email, password);
-  };
   // Define a structure for the token payload (optional for TypeScript users)
-  const getAuthUserFromToken = () => {
+  const getAuthUserFromToken = useCallback(() => {
     const token = localStorage.getItem("token"); // assuming it's stored as "token"
     if (!token) return null;
 
@@ -37,6 +29,16 @@ export const AuthProvider = ({ children }) => {
 
       return null;
     }
+  }, [navigate]);
+
+  // On initial load
+  useEffect(() => {
+    setAuthUser(getAuthUserFromToken());
+  }, [getAuthUserFromToken]);
+
+  // 1. Call Cognito login, return token + email (do not set authUser yet)
+  const authenticate = (email, password) => {
+    return authServiceLogin(email, password);
   };
 
   // 2. Store after verifying security & cipher

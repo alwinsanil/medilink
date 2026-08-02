@@ -2,20 +2,15 @@ import React, { useEffect, useState } from "react";
 import {
   Search,
   Filter,
-  Plus,
   Phone,
   Mail,
   Calendar as CalendarIcon,
   MapPin,
   Edit,
-  Trash2,
   Eye,
   MoreVertical,
   User,
   Users,
-  Clock,
-  FileText,
-  Menu,
   X,
   ChevronDown,
   Download,
@@ -27,7 +22,6 @@ import {
   Calendar,
   Grid3X3,
   List,
-  SortAsc,
   UserPlus,
 } from "lucide-react";
 import { Link } from "react-router-dom";

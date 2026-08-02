@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { User, Settings } from "lucide-react";
 import Sidebar from "../../components/Sidebar";
 import { useAuth } from "../../context/AuthContext";
 import userService from './../../api/userService';
@@ -32,9 +31,11 @@ const PatientProfile = () => {
   };
   // Fetch patient info
   useEffect(() => {
-    userService.getUserById(authUser.id).then((data) => setProfileData({...profileData,...data}))
-      .catch((err) => console.error(err));
-  }, [authUser.id]);
+    if (authUser?.id) {
+      userService.getUserById(authUser.id).then((data) => setProfileData(prev => ({...prev, ...data})))
+        .catch((err) => console.error(err));
+    }
+  }, [authUser?.id]);
 
   const handleEmergencyContactChange = (e) => {
     const { name, value } = e.target;

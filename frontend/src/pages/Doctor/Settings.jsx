@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
-import { AlarmClock, BellDot, Mail, Phone, Menu, X } from "lucide-react";
-import { Link } from "react-router-dom";
+import { AlarmClock, BellDot, Mail, Phone } from "lucide-react";
 import Sidebar from "../../components/Sidebar";
 import userService from "../../api/userService";
 import { useAuth } from "../../context/AuthContext";
@@ -10,7 +7,6 @@ import { useAuth } from "../../context/AuthContext";
 const Settings = () => {
   const {authUser} = useAuth();
   const [doctor,setDoctor] = useState();
-  const [date, setDate] = useState(new Date());
   const [notificationPrefs, setNotificationPrefs] = useState({
     email: true,
     sms: false,

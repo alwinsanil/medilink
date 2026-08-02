@@ -1,27 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Mail, Phone, Calendar, FileText, Upload, Plus, Download, Send, MessageCircle, X, Minimize2 } from "lucide-react";
+import { Mail, Phone, Calendar, Upload, Plus, Send, MessageCircle, X, Minimize2 } from "lucide-react";
 import Sidebar from "../../components/Sidebar";
-import userService from "../../api/userService";
 import recordService from "../../api/recordService";
 import { getAllMessages, getConversation, sendMessage } from "../../api/messageService";
 import { useAuth } from "../../context/AuthContext";
-
-function calculateAge(dob) {
-    const birth = typeof dob === "string" ? new Date(dob) : dob;
-    if (Number.isNaN(birth.getTime())) {
-        throw new Error("Invalid date of birth");
-    }
-
-    const today = new Date();
-    let age = today.getFullYear() - birth.getFullYear();
-
-    const hasHadBirthdayThisYear =
-        today.getMonth() > birth.getMonth() ||
-        (today.getMonth() === birth.getMonth() && today.getDate() >= birth.getDate());
-
-    return hasHadBirthdayThisYear ? age : age - 1;
-}
 
 function ChatWindow({ selectedDoctorId, currentUserId }) {
     const [messages, setMessages] = useState([]);
@@ -186,21 +169,18 @@ export default function PatientChatPage() {
         }
     }, [doctorId, selectedDoctorId]);
 
-    const handleChatSelect = (doctorId) => {
-        setSelectedDoctorId(doctorId);
-        navigate(`/patient/chat/${doctorId}`);
-    };
-
-    const loadRecords = () => {
-        recordService
-            .getRecords(authUser?.id)
-            .then((data) => console.log("Patient records:", data)) // Replace with state management
-            .catch((err) => console.error(err));
-    };
+    const loadRecords = useCallback(() => {
+        if (authUser?.id) {
+            recordService
+                .getRecords(authUser.id)
+                .then((data) => console.log("Patient records:", data))
+                .catch((err) => console.error(err));
+        }
+    }, [authUser?.id]);
 
     useEffect(() => {
         loadRecords();
-    }, [authUser?.id]);
+    }, [loadRecords]);
 
     const handleRecordChange = (e) => {
         const { name, files, value } = e.target;
@@ -224,15 +204,6 @@ export default function PatientChatPage() {
             loadRecords();
         } catch (err) {
             console.error("Error uploading record:", err);
-        }
-    };
-
-    const downloadFile = async (recordId) => {
-        try {
-            const url = await recordService.downloadRecordFile(recordId);
-            window.open(url, "_blank");
-        } catch (err) {
-            console.error("Download error:", err);
         }
     };
 

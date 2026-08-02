@@ -11,7 +11,6 @@ import {
   ArrowLeft,
   Mail,
   Lock,
-  User,
   ShieldCheck
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';

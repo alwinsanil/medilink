@@ -1,8 +1,8 @@
 // src/pages/SetAvailability.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useAuth } from "../../context/AuthContext";
 import availabilityService from "../../api/availabilityService";
-import { Clock, Plus, X, Save } from "lucide-react";
+import { Clock, Plus, X } from "lucide-react";
 import Sidebar from "../../components/Sidebar";
 
 export default function SetAvailability() {
@@ -22,7 +22,7 @@ export default function SetAvailability() {
   ];
 
   // Load availability grouped by date
-  const loadAvailability = async () => {
+  const loadAvailability = useCallback(async () => {
     if (!authUser) return;
     try {
       const { availability } = await availabilityService.getDoctorAvailability(authUser.id);
@@ -30,11 +30,11 @@ export default function SetAvailability() {
     } catch (err) {
       console.error("Error loading availability:", err);
     }
-  };
+  }, [authUser]);
 
   useEffect(() => {
     loadAvailability();
-  }, [authUser]);
+  }, [loadAvailability]);
 
   // Update today's slots when map or date changes
   useEffect(() => {

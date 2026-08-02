@@ -30,7 +30,7 @@ export default function GoogleAuthSuccess() {
       toast.error('Google login failed!');
       navigate('/login');
     }
-  }, []);
+  }, [navigate, searchParams, setVerifiedAuthUser]);
 
   return <p className="text-center mt-10 text-gray-600">Signing you in via Google...</p>;
 }

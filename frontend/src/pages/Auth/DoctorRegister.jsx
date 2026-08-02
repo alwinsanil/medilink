@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Heart, Stethoscope, Eye, EyeOff, ArrowLeft, Mail, Lock, User, Phone, FileText, UserPlus, Users, Calendar, MapPin, GraduationCap, Building } from 'lucide-react';
+import { Stethoscope, Eye, EyeOff, ArrowLeft, Mail, Lock, User, Phone, FileText, UserPlus, Users, Calendar, GraduationCap } from 'lucide-react';
 import { register } from '../../api/authService';
 import { useNavigate } from 'react-router-dom';
 
@@ -58,7 +58,7 @@ export default function DoctorRegister() {
         else delete newErrors.email;
         break;
       case 'phone':
-        const phoneRegex = /^[\+]?[\d\s\-\(\)]+$/;
+        const phoneRegex = /^[+]?[\d\s()-]+$/;
         if (value && !phoneRegex.test(value)) newErrors.phone = 'Invalid phone number format';
         else if (value && value.length < 10) newErrors.phone = 'Phone number must be at least 10 digits';
         else delete newErrors.phone;

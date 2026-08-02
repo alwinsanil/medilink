@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { MapPin, Search, Filter, ChevronRight } from "lucide-react";
 import {
   GoogleMap,
@@ -47,7 +47,7 @@ const PharmacyLocator = () => {
     });
   };
 
-  const fetchNearbyPharmacies = async (location) => {
+  const fetchNearbyPharmacies = useCallback(async (location) => {
     if (!mapRef.current || !window.google?.maps?.places?.PlacesService) return;
 
     const service = new window.google.maps.places.PlacesService(mapRef.current);
@@ -81,7 +81,7 @@ const PharmacyLocator = () => {
         setPharmacies(enriched);
       }
     });
-  };
+  }, []);
 
   useEffect(() => {
     if (!mapLoaded) return;
@@ -97,7 +97,7 @@ const PharmacyLocator = () => {
       },
       () => fetchNearbyPharmacies(userLocation)
     );
-  }, [mapLoaded]);
+  }, [mapLoaded, fetchNearbyPharmacies, userLocation]);
 
   const handleMarkerClick = (pharmacy) => {
     const service = new window.google.maps.places.PlacesService(mapRef.current);

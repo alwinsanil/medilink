@@ -20,7 +20,6 @@ import {
   ArrowUp,
   ArrowDown,
   Minus,
-  Check,
   ChevronDown,
   Menu,
   X,

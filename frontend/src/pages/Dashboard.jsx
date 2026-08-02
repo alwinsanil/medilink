@@ -11,7 +11,6 @@ import {
   Activity,
   Bell,
   Plus,
-  UserCheck,
   AlertCircle,
   ChevronRight
 } from 'lucide-react';
@@ -22,7 +21,7 @@ const Dashboard = () => {
   const {authUser} = useAuth();
   const [stats, setStats] = useState([]);
   const [upcomingAppointments, setUpcomingAppointments] = useState([]);
-  const [recentActivity, setRecentActivity] = useState([]);
+  const recentActivity = [];
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
