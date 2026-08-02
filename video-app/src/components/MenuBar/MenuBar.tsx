@@ -68,7 +68,6 @@ export default function MenuBar() {
   const { isSharingScreen, toggleScreenShare } = useVideoContext();
   const roomState = useRoomState();
   const isReconnecting = roomState === 'reconnecting';
-  const { room } = useVideoContext();
   const participants = useParticipants();
 
   return (
@@ -84,7 +83,7 @@ export default function MenuBar() {
           <Hidden smDown>
             <Grid style={{ flex: 1 }}>
               <Typography variant="body1">
-               {participants.length + 1} participant{participants.length ? 's' : ''}
+                {participants.length + 1} participant{participants.length ? 's' : ''}
               </Typography>
             </Grid>
           </Hidden>
